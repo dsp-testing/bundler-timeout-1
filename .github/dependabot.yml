@@ -1,0 +1,56 @@
+version: 2
+
+# registries:
+#   github-onrunning:
+#     type: git
+#     url: https://github.com
+#     username: x-access-token
+#     password: ${{secrets.DEPENDABOT_REGISTRY_TOKEN}}
+#   railslts:
+#     type: rubygems-server
+#     url: https://gems.railslts.com
+#     username: ${{secrets.RAILSLTS_USERNAME}}
+#     password: ${{secrets.RAILSLTS_PASSWORD}}
+
+updates:
+  - package-ecosystem: 'bundler'
+    directory: '/'
+    registries: '*'
+    insecure-external-code-execution: allow
+    schedule:
+      interval: 'daily'
+    open-pull-requests-limit: 20
+    ignore:
+      - dependency-name: 'adyen-ruby-api-library'
+        versions: ['>= 4']
+      - dependency-name: 'algoliasearch-rails'
+        versions: ['>= 2.0.0']
+      - dependency-name: 'aws-sdk'
+        versions: ['> 2.8.11']
+      - dependency-name: 'contentful'
+        versions: ['>= 2']
+      - dependency-name: 'createsend-rails'
+      - dependency-name: 'flipper'
+        versions: ['>= 0.18.0']
+      - dependency-name: 'mysql2'
+        versions: ['>= 0.5']
+      - dependency-name: 'rails'
+        update-types: ['version-update:semver-major', 'version-update:semver-minor']
+      - dependency-name: 'solidus'
+        versions: ['>= 1.2']
+      - dependency-name: 'solidus_avatax_certified'
+        versions: ['>= 1']
+      - dependency-name: 'spring'
+        versions: ['>= 3.0.0']
+      # Rollbar now requires Rack > 1, which is incompatible with Rails 4, as it uses Rack ~> 1.
+      # This issue has been reported to the Rollbar team and may be resolved in the future.
+      # For more details, see: https://github.com/rollbar/rollbar-gem/issues/1159
+      - dependency-name: 'rollbar'
+        versions: ['>=3.4.2']
+      # test-prof 1.4.0 dropped support for Rails <6
+      - dependency-name: 'test-prof'
+        versions: ['>=1.4.0']
+      # For all packages, ignore any patch updates
+      # (security updates are not affected by this setting)
+      - dependency-name: '*'
+        update-types: ['version-update:semver-patch']
